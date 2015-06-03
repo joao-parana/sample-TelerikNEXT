@@ -58,6 +58,7 @@ export function toggleFavorite(args: gestures.GestureEventData) {
 }
 
 export function showSlideout(args: gestures.GestureEventData) {
+    console.log("show slideout");
     var page = view.getAncestor(args.view, "Page");
     var slideBar = <any>page.getViewById("SideDrawer");
     slideBar.showDrawer();

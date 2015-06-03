@@ -1,10 +1,10 @@
-declare module "sideDrawer" {
+declare module "sidedrawer" {
     import view = require("ui/core/view");
     import dependencyObservable = require("ui/core/dependency-observable");
     import bindable = require("ui/core/bindable");
 
 
-    export class SideDrawer extends view.View {
+    export class SideDrawer {
 
         android: any;
         ios: any;
@@ -22,7 +22,7 @@ declare module "sideDrawer" {
 
         public static mainContentProperty: dependencyObservable.Property;
         public static drawerContentProperty: dependencyObservable.Property;
-        public static drawerContentWidthProperty:dependencyObservable.Property;
+        public static drawerContentWidthProperty: dependencyObservable.Property;
         public static drawerTransitionProperty : dependencyObservable.Property;
         public static drawerLocationProperty : dependencyObservable.Property;
    }

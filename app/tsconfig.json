@@ -15,13 +15,10 @@
         "!./node_modules/**/*.ts"
     ],
     "files": [
-        "./TelerikUI/side-bar/side-bar-common.ts",
-        "./TelerikUI/side-bar/side-bar.android.ts",
-        "./TelerikUI/side-bar/side-bar.d.ts",
-        "./TelerikUI/side-bar/side-bar.ios.ts",
-        "./TelerikUI/sideDrawer/sideDrawer-common.ts",
-        "./TelerikUI/sideDrawer/sideDrawer.d.ts",
-        "./TelerikUI/sideDrawer/sideDrawer.ios.ts",
+        "./TelerikUI/sidedrawer/sidedrawer-common.ts",
+        "./TelerikUI/sidedrawer/sidedrawer.android.ts",
+        "./TelerikUI/sidedrawer/sidedrawer.d.ts",
+        "./TelerikUI/sidedrawer/sidedrawer.ios.ts",
         "./app-view-model.ts",
         "./app.ts",
         "./everlive/everlive-upload.ts",
