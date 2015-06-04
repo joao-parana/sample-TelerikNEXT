@@ -1,5 +1,5 @@
-import definition = require("./sideDrawer");
-import commonModule = require("./sideDrawer-common");
+import definition = require("./sidedrawer");
+import commonModule = require("./sidedrawer-common");
 import viewModule = require("ui/core/view");
 import contentView = require("ui/content-view");
 import frame = require("ui/frame");
@@ -70,26 +70,6 @@ declare enum TKSideDrawerPosition {
     TKSideDrawerPositionBottom
 }
 
-////////////////////////////////////////////////
-
-function onMainContentPropertyChanged(data: dependencyObservable.PropertyChangeData) {
-    var drawer = <SideDrawer>data.object;
-    var newContent = <viewModule.View> data.newValue;
-    if (newContent instanceof viewModule.View) {
-        drawer._mainContentHost.content = newContent;
-    }
-}
-(<proxy.PropertyMetadata>commonModule.SideDrawer.mainContentProperty.metadata).onSetNativeValue = onMainContentPropertyChanged;
-
-function onDrawerContentPropertyChanged(data: dependencyObservable.PropertyChangeData) {
-    var drawer = <SideDrawer>data.object;
-    var newContent = <viewModule.View> data.newValue;
-    if (newContent instanceof viewModule.View) {
-        drawer._drawerContentHost.content = newContent;
-    }
-}
-(<proxy.PropertyMetadata>commonModule.SideDrawer.drawerContentProperty.metadata).onSetNativeValue = onDrawerContentPropertyChanged;
-
 export class SideDrawer extends commonModule.SideDrawer {
 
     private _delegate: TKSideDrawerDelegateImpl;
@@ -119,14 +99,14 @@ export class SideDrawer extends commonModule.SideDrawer {
 
         this._delegate = TKSideDrawerDelegateImpl.new().initWithOwner(this);
 
-        this._ios.sideDrawer.width = this.drawerContentWidth;
+        this._ios.sideDrawer.width = this.drawerContentSize;
         this._ios.sideDrawer.style.blurType = 0;
         this._ios.sideDrawer.headerView = null;
         this._ios.sideDrawer.footerView = null;
-    };
+    }
 
     //data changed event handlers
-    public _onDrawerLocationPropertyChanged(eventData: dependencyObservable.PropertyChangeData) {
+    protected _onDrawerLocationChanged(eventData: dependencyObservable.PropertyChangeData) {
         var valueString : string = eventData.newValue.toString();
         var newLocation : commonModule.SideDrawerLocation = commonModule.SideDrawerLocation[valueString];
         switch(newLocation){
@@ -143,42 +123,46 @@ export class SideDrawer extends commonModule.SideDrawer {
                 this._ios.sideDrawer.position = TKSideDrawerPosition.TKSideDrawerPositionBottom;
                 break;
         }
-    };
-    public _onDrawerContentWidthChanged(eventData: dependencyObservable.PropertyChangeData){
+    }
+
+    protected _onDrawerContentSizeChanged(eventData: dependencyObservable.PropertyChangeData){
         var value : number = eventData.newValue;
         this._ios.sideDrawer.width = value;
     }
-    public _onDrawerTransitionChanged(eventData : dependencyObservable.PropertyChangeData){
+    protected _onDrawerTransitionChanged(eventData : dependencyObservable.PropertyChangeData){
         var value : DrawerTransitionBase = eventData.newValue;
         this._ios.sideDrawer.transition = value.getNativeContent();
-    };
-
-    set drawerContentWidth(value: number) {
-        this._setValue(SideDrawer.drawerContentWidthProperty, value);
     }
 
-    get drawerContentWidth(): number {
-        return this._getValue(SideDrawer.drawerContentWidthProperty);
+    protected _onMainContentChanged(eventData: dependencyObservable.PropertyChangeData) {
+        var drawer = <SideDrawer>eventData.object;
+        var newContent = <viewModule.View> eventData.newValue;
+        if (newContent instanceof viewModule.View) {
+            drawer._mainContentHost.content = newContent;
+            // this._addView(drawer._mainContentHost);
+        }
     }
 
-    get drawerTransition(): DrawerTransitionBase {
-        return this._getValue(SideDrawer.drawerTransitionProperty);
-    }
-    set drawerTransition(value: DrawerTransitionBase) {
-        this._setValue(SideDrawer.drawerTransitionProperty, value);
+    protected _onDrawerContentChanged(eventData: dependencyObservable.PropertyChangeData) {
+        var drawer = <SideDrawer>eventData.object;
+        var newContent = <viewModule.View> eventData.newValue;
+        if (newContent instanceof viewModule.View) {
+            drawer._drawerContentHost.content = newContent;
+            // this._addView(drawer._drawerContentHost);
+        }
     }
 
     get _nativeView(): TKSideDrawerView {
         return this._ios;
-    };
+    }
 
     public closeDrawer(): void {
         this._ios.sideDrawer.dismiss();
-    };
+    }
 
     public showDrawer() {
         this._ios.sideDrawer.show();
-    };
+    }
 
     public showDrawerWithTransition(transition: DrawerTransitionBase) {
         this._ios.sideDrawer.showWithTransition(transition.getNativeContent());
@@ -186,7 +170,7 @@ export class SideDrawer extends commonModule.SideDrawer {
 
     public dismiss() {
         this._ios.sideDrawer.dismiss();
-    };
+    }
 
     public onLoaded() {
         this._addView(this._mainContentHost);
@@ -194,7 +178,7 @@ export class SideDrawer extends commonModule.SideDrawer {
         this._ios.sideDrawer.delegate = this._delegate;
 
         super.onLoaded();
-        //this.ios.viewController = frame.topmost().currentPage.ios;
+        //this._ios.viewController = frame.topmost().currentPage.ios;
     }
 
     public onUnloaded() {
@@ -216,12 +200,12 @@ export class SideDrawer extends commonModule.SideDrawer {
     public onLayout(left: number, top: number, right: number, bottom: number): void {
         var width = right - left;
         var height = bottom - top;
-        this._drawerContentHost.layout(0, 0, this.drawerContentWidth, height);
+        this._drawerContentHost.layout(0, 0, this.drawerContentSize, height);
         this._mainContentHost.layout(0, 0, width, height);
     }
 
     public onMeasure(widthMeasureSpec: number, heightMeasureSpec: number): void {
-        viewModule.View.measureChild(this, this._drawerContentHost, utils.layout.makeMeasureSpec(this.drawerContentWidth, utils.layout.EXACTLY), heightMeasureSpec);
+        viewModule.View.measureChild(this, this._drawerContentHost, utils.layout.makeMeasureSpec(this.drawerContentSize, utils.layout.EXACTLY), heightMeasureSpec);
         var result = viewModule.View.measureChild(this, this._mainContentHost, widthMeasureSpec, heightMeasureSpec);
         var width = utils.layout.getMeasureSpecSize(widthMeasureSpec);
         var widthMode = utils.layout.getMeasureSpecMode(widthMeasureSpec);

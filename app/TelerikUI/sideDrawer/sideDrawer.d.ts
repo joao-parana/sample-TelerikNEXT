@@ -11,7 +11,7 @@ declare module "sidedrawer" {
 
         mainContent: view.View;
         drawerContent: view.View;
-        drawerContentWidth: number;
+        drawerContentSize: number;
         drawerTransition : DrawerTransitionBase;
         drawerLocation : SideDrawerLocation;
         delegate: any;
@@ -22,7 +22,7 @@ declare module "sidedrawer" {
 
         public static mainContentProperty: dependencyObservable.Property;
         public static drawerContentProperty: dependencyObservable.Property;
-        public static drawerContentWidthProperty: dependencyObservable.Property;
+        public static drawerContentSizeProperty: dependencyObservable.Property;
         public static drawerTransitionProperty : dependencyObservable.Property;
         public static drawerLocationProperty : dependencyObservable.Property;
    }

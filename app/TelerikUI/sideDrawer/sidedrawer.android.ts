@@ -16,7 +16,7 @@ export class SideDrawer extends common.SideDrawer {
 
     _createUI() {
         this._android = new com.telerik.android.primitives.widget.sidedrawer.RadSideDrawer(this._context);
-        this._android.setDrawerSize(utils.layout.getDisplayDensity() * this.drawerContentWidth);
+        this._android.setDrawerSize(utils.layout.getDisplayDensity() * this.drawerContentSize);
         this.android.setDrawerTransition(this.drawerTransition.getNativeContent());
         if (this.drawerLocation) {
             this.setDrawerLocation(common.SideDrawerLocation[this.drawerLocation]);
@@ -26,7 +26,7 @@ export class SideDrawer extends common.SideDrawer {
     get android(): any {
         return this._android;
     }
-    
+
     public onLoaded() {
         this._addView(this.mainContent);
         this._addView(this.drawerContent);
@@ -41,6 +41,16 @@ export class SideDrawer extends common.SideDrawer {
         super.onUnloaded();
     }
 
+    protected _onDrawerSizeChanged(data: dependencyObservable.PropertyChangeData) {
+        if (!this.android) {
+            return;
+        }
+
+        if (data.newValue) {
+            this.android.setDrawerSize(java.lang.Integer.valueOf(data.newValue));
+        }
+    }
+
     protected _onDrawerContentChanged(data: dependencyObservable.PropertyChangeData) {
         if (!this.android) {
             return;
@@ -48,29 +58,37 @@ export class SideDrawer extends common.SideDrawer {
 
         if (data.oldValue) {
             this.android.setDrawerContent(undefined);
+
+            if (this.isLoaded) {
+                this._removeView(data.oldValue);
+            }
         }
 
         if (data.newValue) {
-          //This will automatically add the native content in the _addViewToNativeVisualTree...override
-          data.newValue.bindingContext = this.bindingContext;
+            //This will automatically add the native content in the _addViewToNativeVisualTree...override
+            data.newValue.bindingContext = this.bindingContext;
             this._addView(data.newValue);
         }
     }
 
     protected _onMainContentChanged(data: dependencyObservable.PropertyChangeData) {
-      if (!this.android) {
-          return;
-      }
+        if (!this.android) {
+            return;
+        }
 
-      if (data.oldValue) {
-          this.android.setMainContent(undefined);
-      }
+        if (data.oldValue) {
+            this.android.setMainContent(undefined);
 
-      if (data.newValue) {
-        //This will automatically add the native content in the _addViewToNativeVisualTree...override
-        data.newValue.bindingContext = this.bindingContext;
-          this._addView(data.newValue);
-      }
+            if (this.isLoaded) {
+                this._removeView(data.oldValue);
+            }
+        }
+
+        if (data.newValue) {
+            //This will automatically add the native content in the _addViewToNativeVisualTree...override
+            data.newValue.bindingContext = this.bindingContext;
+            this._addView(data.newValue);
+        }
     }
 
     protected _onDrawerTransitionChanged(data: dependencyObservable.PropertyChangeData) {

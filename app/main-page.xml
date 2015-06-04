@@ -1,10 +1,10 @@
 <Page xmlns="http://www.nativescript.org/tns.xsd"
   loaded="pageLoaded" xmlns:tsb="TelerikUI/sidedrawer">
-  <tsb:SideDrawer id="SideDrawer">
+  <tsb:SideDrawer id="SideDrawer" >
       <tsb:SideDrawer.drawerTransition>
           <tsb:SlideInOnTopTransition/>
       </tsb:SideDrawer.drawerTransition>
-    <tsb:SideDrawer.drawerContent>
+    <tsb:SideDrawer.drawerContent >
       <GridLayout rows="*, auto">
         <StackLayout style="background-color: #053140;">
           <Image src="res://logo" cssClass="slide-out-img" stretch="none" />

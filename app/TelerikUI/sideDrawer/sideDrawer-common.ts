@@ -1,4 +1,4 @@
-import definition = require("sidedrawer");
+import definition = require("./sidedrawer");
 import dependencyObservable = require("ui/core/dependency-observable");
 import proxy = require("ui/core/proxy");
 import view = require("ui/core/view");
@@ -16,7 +16,7 @@ export class SideDrawer extends view.View implements definition.SideDrawer {
         "drawerTransition",
         "SideDrawer",
         new proxy.PropertyMetadata(
-            280,
+            undefined,
             dependencyObservable.PropertyMetadataSettings.AffectsLayout,
             SideDrawer.onDrawerTransitionChanged));
 
@@ -25,24 +25,24 @@ export class SideDrawer extends view.View implements definition.SideDrawer {
         classInstance._onDrawerTransitionChanged(eventData);
     }
 
-    public static drawerContentWidthProperty = new dependencyObservable.Property(
-        "drawerContentWidth",
+    public static drawerContentSizeProperty = new dependencyObservable.Property(
+        "drawerContentSize",
         "SideDrawer",
         new proxy.PropertyMetadata(
             280,
             dependencyObservable.PropertyMetadataSettings.AffectsLayout,
-            SideDrawer.onDrawerContentWidthChanged));
+            SideDrawer.onDrawerContentSizeChanged));
 
-    private static onDrawerContentWidthChanged(eventData: dependencyObservable.PropertyChangeData) {
+    private static onDrawerContentSizeChanged(eventData: dependencyObservable.PropertyChangeData) {
         var classInstance = <SideDrawer>eventData.object;
-        classInstance._onDrawerContentWidthChanged(eventData);
+        classInstance._onDrawerContentSizeChanged(eventData);
     }
 
     public static drawerLocationProperty = new dependencyObservable.Property(
         "drawerLocation",
         "SideDrawer",
         new proxy.PropertyMetadata(
-            280,
+            SideDrawerLocation.Left,
             dependencyObservable.PropertyMetadataSettings.AffectsLayout,
             SideDrawer.onDrawerLocationPropertyChanged));
 
@@ -85,7 +85,7 @@ export class SideDrawer extends view.View implements definition.SideDrawer {
 
     protected _onDrawerTransitionChanged(eventData: dependencyObservable.PropertyChangeData) { };
 
-    protected _onDrawerContentWidthChanged(eventData: dependencyObservable.PropertyChangeData) { };
+    protected _onDrawerContentSizeChanged(eventData: dependencyObservable.PropertyChangeData) { };
 
     get drawerTransition(): definition.DrawerTransitionBase {
         return this._getValue(SideDrawer.drawerTransitionProperty);
@@ -94,11 +94,11 @@ export class SideDrawer extends view.View implements definition.SideDrawer {
         this._setValue(SideDrawer.drawerTransitionProperty, value);
     }
 
-    get drawerContentWidth(): number {
-        return this._getValue(SideDrawer.drawerContentWidthProperty);
+    get drawerContentSize(): number {
+        return this._getValue(SideDrawer.drawerContentSizeProperty);
     }
-    set drawerContentWidth(value: number) {
-        this._setValue(SideDrawer.drawerContentWidthProperty, value);
+    set drawerContentSize(value: number) {
+        this._setValue(SideDrawer.drawerContentSizeProperty, value);
     }
 
     get drawerLocation(): definition.SideDrawerLocation {
