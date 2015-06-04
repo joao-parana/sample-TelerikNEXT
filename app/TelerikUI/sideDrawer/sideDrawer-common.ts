@@ -1,4 +1,3 @@
-import definition = require("./sidedrawer");
 import dependencyObservable = require("ui/core/dependency-observable");
 import proxy = require("ui/core/proxy");
 import view = require("ui/core/view");
@@ -10,7 +9,13 @@ export enum SideDrawerLocation {
     Bottom
 }
 
-export class SideDrawer extends view.View implements definition.SideDrawer {
+export class DrawerTransitionBase{
+    getNativeContent() : any {
+        return undefined;
+    };
+}
+
+export class SideDrawer extends view.View {//implements definition.SideDrawer {
 
     public static drawerTransitionProperty = new dependencyObservable.Property(
         "drawerTransition",
@@ -87,10 +92,10 @@ export class SideDrawer extends view.View implements definition.SideDrawer {
 
     protected _onDrawerContentSizeChanged(eventData: dependencyObservable.PropertyChangeData) { };
 
-    get drawerTransition(): definition.DrawerTransitionBase {
+    get drawerTransition(): DrawerTransitionBase {
         return this._getValue(SideDrawer.drawerTransitionProperty);
     }
-    set drawerTransition(value: definition.DrawerTransitionBase) {
+    set drawerTransition(value: DrawerTransitionBase) {
         this._setValue(SideDrawer.drawerTransitionProperty, value);
     }
 
@@ -101,10 +106,10 @@ export class SideDrawer extends view.View implements definition.SideDrawer {
         this._setValue(SideDrawer.drawerContentSizeProperty, value);
     }
 
-    get drawerLocation(): definition.SideDrawerLocation {
+    get drawerLocation(): SideDrawerLocation {
         return this._getValue(SideDrawer.drawerLocationProperty);
     }
-    set drawerLocation(value: definition.SideDrawerLocation) {
+    set drawerLocation(value: SideDrawerLocation) {
         this._setValue(SideDrawer.drawerLocationProperty, value);
     }
 
@@ -128,17 +133,11 @@ export class SideDrawer extends view.View implements definition.SideDrawer {
 
     set delegate(value: any) { };
 
-    public showDrawer(): void {
+    public showDrawer(): void { }
 
-    }
+    public closeDrawer(): void { }
 
-    public closeDrawer(): void {
-
-    }
-
-    public showDrawerWithTransition(transition: definition.DrawerTransitionBase): void {
-
-    }
+    public showDrawerWithTransition(transition: DrawerTransitionBase): void { }
 
     get _childrenCount(): number {
         var count = 0;

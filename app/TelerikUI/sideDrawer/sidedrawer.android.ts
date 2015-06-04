@@ -1,10 +1,36 @@
 import common = require("./sidedrawer-common");
-import definitionModule = require("./sidedrawer");
 import view = require("ui/core/view");
 import dependencyObservable = require("ui/core/dependency-observable");
 import proxy = require("ui/core/proxy");
 import utils = require("utils/utils");
 import bindable = require("ui/core/bindable");
+
+declare module com {
+    module telerik {
+        module android {
+            module primitives {
+                module widget {
+                    module sidedrawer {
+                        class RadSideDrawer {
+                            constructor(any)
+                        }
+                        enum DrawerLocation{ LEFT, RIGHT, TOP, BOTTOM}
+                        module transitions{
+                            class PushTransition{}
+                            class FadeTransition{}
+                            class RevealTransition{}
+                            class ReverseSlideOutTransition{}
+                            class ScaleDownPusherTransition{}
+                            class ScaleUpTransition{}
+                            class SlideAlongTransition{}
+                            class SlideInOnTopTransition{}
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 
 export class SideDrawer extends common.SideDrawer {
 
@@ -19,7 +45,7 @@ export class SideDrawer extends common.SideDrawer {
         this._android.setDrawerSize(utils.layout.getDisplayDensity() * this.drawerContentSize);
         this.android.setDrawerTransition(this.drawerTransition.getNativeContent());
         if (this.drawerLocation) {
-            this.setDrawerLocation(common.SideDrawerLocation[this.drawerLocation]);
+            this.setDrawerLocation(common.SideDrawerLocation[this.drawerLocation.toString()]);
         }
     }
 
@@ -92,7 +118,7 @@ export class SideDrawer extends common.SideDrawer {
     }
 
     protected _onDrawerTransitionChanged(data: dependencyObservable.PropertyChangeData) {
-        var newTransition = <definitionModule.DrawerTransitionBase>data.newValue;
+        var newTransition = <common.DrawerTransitionBase>data.newValue;
         if (!newTransition) {
             return;
         }
@@ -182,7 +208,7 @@ export class SideDrawer extends common.SideDrawer {
         }
     }
 
-    public showDrawerWithTransition(transition: definitionModule.DrawerTransitionBase): void {
+    public showDrawerWithTransition(transition: common.DrawerTransitionBase): void {
         if (this.android) {
             this.android.setDrawerTransition(transition.getNativeContent());
             this.showDrawer();
@@ -190,7 +216,7 @@ export class SideDrawer extends common.SideDrawer {
     }
 }
 
-export class DrawerTransitionBase extends bindable.Bindable implements definitionModule.DrawerTransitionBase {
+export class DrawerTransitionBase extends bindable.Bindable implements common.DrawerTransitionBase {
     getNativeContent(): any {
         return undefined;
     }

@@ -1,4 +1,3 @@
-import definition = require("./sidedrawer");
 import commonModule = require("./sidedrawer-common");
 import viewModule = require("ui/core/view");
 import contentView = require("ui/content-view");
@@ -70,6 +69,8 @@ declare enum TKSideDrawerPosition {
     TKSideDrawerPositionBottom
 }
 
+////////////////////////////////////////////////
+
 export class SideDrawer extends commonModule.SideDrawer {
 
     private _delegate: TKSideDrawerDelegateImpl;
@@ -130,7 +131,7 @@ export class SideDrawer extends commonModule.SideDrawer {
         this._ios.sideDrawer.width = value;
     }
     protected _onDrawerTransitionChanged(eventData : dependencyObservable.PropertyChangeData){
-        var value : DrawerTransitionBase = eventData.newValue;
+        var value : commonModule.DrawerTransitionBase = eventData.newValue;
         this._ios.sideDrawer.transition = value.getNativeContent();
     }
 
@@ -139,7 +140,6 @@ export class SideDrawer extends commonModule.SideDrawer {
         var newContent = <viewModule.View> eventData.newValue;
         if (newContent instanceof viewModule.View) {
             drawer._mainContentHost.content = newContent;
-            // this._addView(drawer._mainContentHost);
         }
     }
 
@@ -148,7 +148,6 @@ export class SideDrawer extends commonModule.SideDrawer {
         var newContent = <viewModule.View> eventData.newValue;
         if (newContent instanceof viewModule.View) {
             drawer._drawerContentHost.content = newContent;
-            // this._addView(drawer._drawerContentHost);
         }
     }
 
@@ -164,7 +163,7 @@ export class SideDrawer extends commonModule.SideDrawer {
         this._ios.sideDrawer.show();
     }
 
-    public showDrawerWithTransition(transition: DrawerTransitionBase) {
+    public showDrawerWithTransition(transition: commonModule.DrawerTransitionBase) {
         this._ios.sideDrawer.showWithTransition(transition.getNativeContent());
     }
 
@@ -221,55 +220,49 @@ export class SideDrawer extends commonModule.SideDrawer {
 //              TRANSITIONS
 ////////////////////////////////////////////////
 
-export class DrawerTransitionBase extends bindable.Bindable implements definition.DrawerTransitionBase{
-    getNativeContent() : any{
-         return undefined;
-    }
-}
-
-export class FadeTransition extends DrawerTransitionBase{
+export class FadeTransition extends commonModule.DrawerTransitionBase{
     getNativeContent() : any{
         return TKSideDrawerTransitionType.TKSideDrawerTransitionTypeFadeIn;
     }
 }
 
-export class PushTransition extends DrawerTransitionBase{
+export class PushTransition extends commonModule.DrawerTransitionBase{
     getNativeContent() : any{
         return TKSideDrawerTransitionType.TKSideDrawerTransitionTypePush;
     }
 }
 
-export class RevealTransition extends DrawerTransitionBase{
+export class RevealTransition extends commonModule.DrawerTransitionBase{
     getNativeContent() : any{
         return TKSideDrawerTransitionType.TKSideDrawerTransitionTypeReveal;
     }
 }
 
-export class ReverseSlideOutTransition extends DrawerTransitionBase{
+export class ReverseSlideOutTransition extends commonModule.DrawerTransitionBase{
     getNativeContent() : any{
         return TKSideDrawerTransitionType.TKSideDrawerTransitionTypeReverseSlideOut;
     }
 }
 
-export class ScaleDownPusherTransition extends DrawerTransitionBase{
+export class ScaleDownPusherTransition extends commonModule.DrawerTransitionBase{
     getNativeContent() : any{
         return TKSideDrawerTransitionType.TKSideDrawerTransitionTypeScaleDownPusher;
     }
 }
 
-export class ScaleUpTransition extends DrawerTransitionBase{
+export class ScaleUpTransition extends commonModule.DrawerTransitionBase{
     getNativeContent() : any{
         return TKSideDrawerTransitionType.TKSideDrawerTransitionTypeScaleUp;
     }
 }
 
-export class SlideAlongTransition extends DrawerTransitionBase{
+export class SlideAlongTransition extends commonModule.DrawerTransitionBase{
     getNativeContent() : any{
         return TKSideDrawerTransitionType.TKSideDrawerTransitionTypeSlideAlong;
     }
 }
 
-export class SlideInOnTopTransition extends DrawerTransitionBase{
+export class SlideInOnTopTransition extends commonModule.DrawerTransitionBase{
     getNativeContent() : any{
         return TKSideDrawerTransitionType.TKSideDrawerTransitionTypeSlideInOnTop;
     }
@@ -292,7 +285,6 @@ class TKSideDrawerDelegateImpl extends NSObject implements TKSideDrawerDelegate 
         return this;
     }
 
-    //todo: default table view callbacks not implemented. Consider if needed for full featured version for ios
     willShowSideDrawer(sideDrawer: SideDrawer){
         if (this._owner.delegate && (typeof this._owner.delegate.willShowSideDrawer === 'function')){
             this._owner.delegate.willShowSideDrawer();
