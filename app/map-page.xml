@@ -1,5 +1,5 @@
 <Page xmlns="http://www.nativescript.org/tns.xsd"
-  navigatedTo="pageNavigatedTo">
+  navigatedTo="pageNavigatedTo" actionBarHidden="true">
 
   <GridLayout rows="auto, *">
     <!-- HEADER -->

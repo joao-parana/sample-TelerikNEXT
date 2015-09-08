@@ -1,5 +1,5 @@
 <Page xmlns="http://www.nativescript.org/tns.xsd"
-  loaded="pageLoaded" xmlns:tsb="TelerikUI/sidedrawer">
+  loaded="pageLoaded" xmlns:tsb="TelerikUI/sidedrawer" actionBarHidden="true">
   <tsb:SideDrawer id="SideDrawer" >
       <tsb:SideDrawer.drawerTransition>
           <tsb:SlideInOnTopTransition/>
