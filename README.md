@@ -1,6 +1,9 @@
 # TelerikNEXT conference app - sample code
 Open source cross-platform [TelerikNEXT conference](http://www.teleriknext.com) app built with NativeScript.
 
+> You need download from this link: [https://www.telerik.com/download-trial-file?pid=RCiOS&lict=1](https://www.telerik.com/download-trial-file?pid=RCiOS&lict=1)
+
+
 ![Telerik Next cross-platform mobile app - all sessions view](https://www.nativescript.org/images/default-source/default-album/telerik-next-all-sessions.png)
 ![Telerik Next cross-platform mobile app - navigation drawer](https://www.nativescript.org/images/default-source/default-album/telerik-next-nav-drawer.png)
 
